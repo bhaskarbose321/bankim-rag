@@ -1,48 +1,76 @@
-# Bankim Chandra Chattopadhyay RAG System
+# Bankim RAG API 🤖
 
-A Retrieval-Augmented Generation (RAG) system for searching biographical information about Bankim Chandra Chattopadhyay using semantic search.
+A lightweight, high-performance Retrieval-Augmented Generation (RAG) API built with **FastAPI** and **Sentence-Transformers**. It uses local, open-source dense vector embeddings (`all-MiniLM-L6-v2`) to perform accurate semantic searches over unstructured markdown text profiles.
 
-## Features
+Unlike traditional keyword-matching systems (like TF-IDF), this API understands user intent, synonyms, and context.
 
-- Semantic search using sentence transformers
-- FAISS vector indexing for fast similarity search
-- Web interface for easy querying
-- Deployed on Render
+## 🚀 Features
+* **Semantic Search:** Evaluates the contextual meaning of sentences rather than exact word matching.
+* **Header-Based Chunking:** Intelligently groups markdown subsections to preserve full text context.
+* **FastAPI Backend:** Built-in high-performance asynchronous API endpoints with automatic documentation.
+* **100% Free & Local:** Runs completely on your local CPU without requiring paid API keys or cloud services.
 
-## Tech Stack
+## 🛠️ Tech Stack
+* **Python 3.8+**
+* **FastAPI** (API framework)
+* **Sentence-Transformers** (Local embedding generation)
+* **NumPy** (Vector similarity operations)
 
-- **Backend**: Flask
-- **Embeddings**: Sentence-Transformers (all-MiniLM-L6-v2)
-- **Vector Search**: FAISS
-- **Frontend**: HTML/CSS/JavaScript
+## 📦 Installation & Setup
 
-## Local Setup
+1. **Clone the Repository**
+   ```bash
+   git clone https://github.com
+   cd bankim-rag-api
+   ```
 
-1. Install dependencies:
+2. **Install Dependencies**
+   Make sure you have the required Python modules installed:
+   ```bash
+   pip install fastapi uvicorn sentence-transformers numpy pydantic
+   ```
+
+3. **Prepare the Data**
+   Ensure your text profile data is saved as `bankim.txt` in the root directory of the project.
+
+## 🏃 How to Run the Server
+
+Start the local server using the Python module execution flag to bypass system environment path restrictions:
+
 ```bash
-pip install -r requirements.txt
+python -m uvicorn main:app --reload
 ```
 
-2. Run the application:
-```bash
-python main.py
-```
+*Note: The server will automatically download the lightweight embedding model (`all-MiniLM-L6-v2`, ~90MB) on its very first execution.*
 
-3. Open your browser and navigate to `http://localhost:5000`
+Once started, the API will be live at `http://127.0.0.1:8000`.
 
-## Usage
+## 📡 API Endpoints
 
-- Enter your question about Bankim Chandra Chattopadhyay in the search box
-- Click "Search" or press Enter
-- View the most relevant information chunks from the knowledge base
+### 1. Home Check
+* **URL:** `/`
+* **Method:** `GET`
+* **Response:**
+  ```json
+  { "message": "Bankim RAG API is running with Semantic Search" }
+  ```
 
-## Deployment
+### 2. Ask RAG Query
+* **URL:** `/ask`
+* **Method:** `POST`
+* **Payload:**
+  ```json
+  { "question": "when bankimchandra was born?" }
+  ```
+* **Response:**
+  ```json
+  {
+    "question": "when bankimchandra was born?",
+    "answer": "## Personal Overview\n- **Full Name**: Bankim Chandra Chattopadhyay CIE...\n- **Birth**: 26 June 1838...",
+    "confidence_score": 0.7241
+  }
+  ```
 
-This application is configured for deployment on Render using:
-- `render.yaml` - Render configuration
-- `Procfile` - Process configuration
-- `requirements.txt` - Python dependencies
-
-## Data Source
-
-The system uses biographical information about Bankim Chandra Chattopadhyay stored in `bankim_chandra_chattopadhyay_rag.txt`.
+## 🧪 Interactive Testing
+You can interactively test all requests directly from your browser via the built-in Swagger UI documentation. Navigate to:
+👉 **[http://127.0.0](http://127.0.0)**
